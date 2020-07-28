@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="card-deck-css/css/cardstarter.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <script defer src="main.js"></script>
+</head>
+<body class="">
+    <!-- <header class="bg1">why am in not here</header> -->
+    <nav>
+        <p class="initText"> Blackjack...Let the Fun Begin!!!</p>
+        <p class="init2" style="color:white ;position:absolute;">Click Me to Start</p>
+        <img src="img/vegas_animation2_9c.gif" class="onLoadImg">
+    </nav>
+    <main class="hidden shadow-lg">
+        
+        <section>
+            <button type="button" class="btn btn-danger" id="restart">Start A New Game</button>
+    
+        </section>
+        <div class="display-4" id="alert"></div>
+        <section>
+            <p class="displayOnTable">Computer, Card Total: <span id="cCardTotal"></span></p>
+            <div class="card large" id="cCard1"></div>
+            <div class="card large" id="cCard2"></div>
+            <div class="card large" id="cCard3"></div>
+            <div class="card large" id="cCard4"></div>
+            <div class="card large" id="cCard5"></div>
+            <div class="card large" id="cCard6"></div>
+            <div class="card large" id="cCard7"></div>
+            <div class="card large" id="cCard8"></div>
+            <div class="card large" id="cCard9"></div>
+            <div class="card large" id="cCard10"></div>
+        </section>
+        <section class="displayOnTable">
+            <p>
+                <span class="listNames" id="playerName">Player1</span>  
+                <img src="/img/chip1.png" alt="Chip Pile" width="70px" height="70px">
+            </p>
+        </section>
+        <section>
+            <div class="card large" id="pCard1"></div>
+            <div class="card large" id="pCard2"></div>
+            <div class="card large" id="pCard3"></div>
+            <div class="card large" id="pCard4"></div>
+            <div class="card large" id="pCard5"></div>
+            <div class="card large" id="pCard6"></div>
+            <div class="card large" id="pCard7"></div>
+            <div class="card large" id="pCard8"></div>
+            <div class="card large" id="pCard9"></div>
+            <div class="card large" id="pCard10"></div>
+        </section>
+        <section class="displayOnTable">
+            <p align="center">Card Total: <span id="pCardTotal"></span></p>
+        </section>
+    </main>
+    <footer class="inputs hidden">
+        <div class="allmyButtons">
+            <button type="button" class="btn btn-outline-success" value="deal">Deal</button>
+            <button type="button" class="btn btn-outline-success" value="hit">Hit</button>
+            <button type="button" class="btn btn-outline-success" value="stay">Stay</button>
+            <button type="button" class="btn btn-outline-success btn-rounded" value="double">Double Down</button>
+            <button type="button" class="btn btn-outline-success" value="split">Split</button>
+        </div>
+        <div id="scores">
+            <p>Total:  $<span id="totalPot">0</span></p>
+            <p>Bet:  $<span id="betAmount">0</span></p>            
+        </div>
+        <div class="chips">
+            <img src="/img/chip1.png" alt="$1 Chip">
+            <img src="/img/chip5.png" alt="$5 Chip">
+            <img src="/img/chip10.png" alt="$10 Chip" width="100" height="100">
+            <img src="/img/chip25.png" alt="$25 Chip" width="100" height="100">
+        </div>
+    </footer>
+</body>
+</html>
