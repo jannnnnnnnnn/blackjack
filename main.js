@@ -17,6 +17,7 @@ let conversionComplete=false;
 let playerSum=0;
 let computerSum=0;
 let playerName= "";
+let windowWidth=$(document).width();
 
 /*----- cached element references -----*/
 const dealButton=document.querySelector('button[value="deal"]');
@@ -41,6 +42,10 @@ const bet1Dollar= document.querySelector('img[alt="$1 Chip"]');
 const bet5Dollar= document.querySelector('img[alt="$5 Chip"]');
 const bet10Dollar= document.querySelector('img[alt="$10 Chip"]');
 const bet25Dollar= document.querySelector('img[alt="$25 Chip"]');
+const betChips1= document.querySelector('img[alt="Chip Pile 1"]');
+const betChips2= document.querySelector('img[alt="Chip Pile 2"]');
+const betChips3= document.querySelector('img[alt="Chip Pile 3"]');
+
 
 
 
@@ -58,14 +63,38 @@ bet10Dollar.addEventListener('click',function(){addBet([10]);});
 bet25Dollar.addEventListener('click',function(){addBet([25]);});
 
 $(document).ready(function(){
-    animateTarget('.init2',3000);
+    animateTarget('.init2',5000);
 });
 
+// function animateTarget(target, speed, prevTop, prevLeft){
+//     $(target).css({top:prevTop, left:prevLeft});
+//     let t= getRandomNum(-100,100);
+//     let s= getRandomNum(-100,100);
+//     // let newTop= prevTop+$(document).height() + t;
+//     // let newLeft= prevLeft+$(document).width() + s
+//     console.log(t,"and",s, "and",$(document).height());
+//     $(target).animate(
+//     {
+//         top: t,
+//         left: s
+//     },
+//     {
+//         duration: speed,
+//         complete: function(){animateTarget(this,speed,t,s);}
+//     }
+//     );
+// };
+
 function animateTarget(target, speed){
-    $(target).css({left:'-200px'});
+    //move back to start if out of bounds
+    let position = $(target).position();
+    if(position.left >= windowWidth){
+        $(target).css({left:'-200px'});
+    };
+    //animation
     $(target).animate(
     {
-        left: $(document).width() + 200
+        left: windowWidth + 200
     },
     {
         duration: speed,
@@ -79,8 +108,6 @@ function initLoad(){
     document.querySelector('nav').removeEventListener('click',initLoad,false);
     document.querySelector('nav').classList.add('hidden');
     gameInit();
-    // $('.initText').animate({left: '500px'},"slow");
-
 }
 //choose a random number
 function getRandomNum (min,max){
@@ -302,16 +329,20 @@ function doubleDown(){
 }
 
 function addBet(x){
-    betValue=betValue.concat(x);
-    totalMoney=totalMoney+betSum;
-    betSum=sumOfArray(betValue);
-    totalMoney=totalMoney-betSum;
-    //betValue=betValue+x;
-    $('#totalPot').text(totalMoney);
-    $('#betAmount').text(betSum);
-
-    ///////add new rule cannot bet over total amount left
-    //////add putting chips in chip pile
+    if (totalMoney>x){
+        betChips1.src=betChips2.src
+        betChips2.src=betChips3.src
+        betChips3.src="/img/chip"+x+".png";
+                betValue=betValue.concat(x);
+        totalMoney=totalMoney+betSum;
+        betSum=sumOfArray(betValue);
+        totalMoney=totalMoney-betSum;
+        //betValue=betValue+x;
+        $('#totalPot').text(totalMoney);
+        $('#betAmount').text(betSum); 
+    } else{
+        alertBanner.innerHTML="Boo! We don't lend money..."
+    }
 }
 
 function splitMe(){
@@ -380,5 +411,4 @@ function roundComplete(){
 //roundComplete()
 
 //$('input[type="button"][value="restart"]').click(gameInit);
-//////add chips to table
 
