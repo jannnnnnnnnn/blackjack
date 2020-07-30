@@ -148,7 +148,7 @@ footer img{
 
 
 .bg1{
-    background-image: url(/img/roulette_background.jpg);
+    background-image: url(img/roulette_background.jpg);
     width:100%;
     height:auto;
     background-position:center;
@@ -157,7 +157,7 @@ footer img{
 }
 
 .bg2{
-    background-image: url(/img/blackjack-classic-background.jpg);
+    background-image: url(img/blackjack-classic-background.jpg);
     height:100%;
     background-position:center;
     background-repeat: no-repeat;
