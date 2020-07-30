@@ -4,10 +4,10 @@
 // })
 
 /*----- constants -----*/
-const audioPlayer= new Audio ('http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3');
+const audioPlayer= new Audio ('/audio/place_card.mp3');
 const track={
     cardsound:'/audio/place_card.mp3',
-    chipsound:'http://www.freesound.org/data/previews/383/383870_7146007-lq.mp3',
+    chipsound:'/audio/poker_chip_dropping.mp3',
 
 }
 /*----- app's state (variables) -----*/
@@ -113,8 +113,8 @@ function setAudio(){
 
 function playAudio(name){
     if (sound==true){
-        audioPlayer.src=track[name];
-        audioPlayer.play();
+        // audioPlayer.src=track[name];
+        // audioPlayer.play();
     }
 }
 
