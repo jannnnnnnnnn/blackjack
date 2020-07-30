@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BlackJack Casino Game</title>
+    <link rel="icon" 
+      type="image/png" 
+      href="img/blackjack_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Aladin&family=Mansalva&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
@@ -15,9 +18,15 @@
     <script defer src="main.js"></script>
 </head>
 <body class="">
-    <!-- <header class="bg1">why am in not here</header> -->
     <nav>
-        <p class="initText">BlackJack</p>
+        <!-- <button type="button" class="btn btn-warning" id="audioControl">&#9655</button> -->
+        <!-- <audio  id="bg-player" controls autoplay src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3" loop></audio> -->
+
+        <div class="initText">BlackJack</div>
+        <a href="" title="Play Sound" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioInitial">&#9655  Sound</button></a>
+
+        <!-- <a href="" title="Pulse Sound" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioControl">| |</button></a> -->
+
         <div class="init2" style="position:absolute;">
             Let the Fun Begin!!!<br>Click Me to Start
         </div>
@@ -31,7 +40,7 @@
             <!-- <audio  id="bg-player" controls autoplay src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3" loop></audio> -->
             <!-- <button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-volumn-up" aria-hidden="true"></span></button> -->
             <button type="button" class="btn btn-danger" id="restart">Start A New Game</button>
-            <button type="button" class="btn btn-warning" id="audioControl">&#9655</button>
+            <a href="" title="Sound Control" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioControl">&#9655</button></a>
 
         </section>
         <div class="display-3" id="alert"></div>

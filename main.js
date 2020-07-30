@@ -4,12 +4,16 @@
 // })
 
 /*----- constants -----*/
-const audioPlayer= new Audio ('/audio/place_card.mp3');
+const audioPlayer= new Audio ('audio/place_card.mp3');
+const audioInitLoad= new Audio ('audio/around_the_world.mp3');
 const track={
-    cardsound:'/audio/place_card.mp3',
-    chipsound:'/audio/poker_chip_dropping.mp3',
-
+    cardsound:'audio/place_card.mp3',
+    // cardsound:'http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3',
+    chipsound:'audio/poker_chip_dropping.mp3',
+    winnersound:'audio/winner_clap.mp3',
+    loosersound:'audio/looser_boo (2).mp3',
 }
+
 /*----- app's state (variables) -----*/
 let betValue=[];
 let betSum=0;
@@ -24,6 +28,7 @@ let computerSum=0;
 let playerName= "";
 let windowWidth=$(document).width();
 let sound=true;
+let soundinit=true;
 
 
 /*----- cached element references -----*/
@@ -56,13 +61,10 @@ const betChips3= document.querySelector('img[alt="Chip Pile 3"]');
 const chipPile= document.querySelectorAll('.chipPile');
 
 
-
-
-
-
 /*----- event listeners -----*/
 $('#restart').click(gameInit);
-document.querySelector('nav').addEventListener('click', initLoad);
+document.querySelector('.onLoadImg').addEventListener('click', initLoad);
+
 splitButton.addEventListener('click',splitMe);
 dealButton.addEventListener('click',dealMe);
 stayButton.addEventListener('click',stay);
@@ -82,6 +84,14 @@ betChips1.addEventListener('click',removeBet);
 $(document).ready(function(){
     animateTarget('.init2',5000);
 });
+document.querySelector('#audioInitial').addEventListener('click', function(){
+    if (soundinit==true){
+        audioInitLoad.play();
+        soundinit=false;
+    } else{
+        soundinit=true;
+    }
+})
 
 // function animateTarget(target, speed, prevTop, prevLeft){
 //     $(target).css({top:prevTop, left:prevLeft});
@@ -104,17 +114,15 @@ $(document).ready(function(){
 function setAudio(){
     if (sound==true){
         sound = false;
-        console.log("i am in sound is true");
     } else{
         sound = true;
-        console.log("i am in sound is false");
     }
 }
 
 function playAudio(name){
     if (sound==true){
-        // audioPlayer.src=track[name];
-        // audioPlayer.play();
+        audioPlayer.src=track[name];
+        audioPlayer.play();
     }
 }
 
@@ -138,6 +146,7 @@ function animateTarget(target, speed){
 
 /*----- functions -----*/
 function initLoad(){
+    audioInitLoad.pause();
     document.querySelector('nav').removeEventListener('click',initLoad,false);
     document.querySelector('nav').classList.add('hidden');
     gameInit();
@@ -162,7 +171,6 @@ function gameInit(){
 }
 
 function newRound(){
-    //console.log('total Money is '+totalMoney);
     //unfreeze screen
     displayOnTable.forEach(function(evt){evt.classList.add('hidden')});
     inputsSection.classList.remove('freeze');
@@ -180,7 +188,6 @@ function newRound(){
     //reset round
     betValue=[0, 1];
     betSum=sumOfArray(betValue);
-    console.log('sum is '+betSum)
     totalMoney=totalMoney-betSum;
     computerCards=[];
     playerCards=[];
@@ -274,11 +281,8 @@ function dealNewCard(whosTurn){
         gameInit();
     }
     //display New Card 
-    //console.log("playerCard.length is "+playerCards.length);
-    //console.log("computerCard.length is "+computerCards.length);
     $(cardToDisplay).fadeIn();
     $(cardToDisplay).addClass(newCard);
-    //console.log(cardToDisplay);
     return true;
 }
 
@@ -329,6 +333,7 @@ function computerTurn(){
 
 //winner conditions
 function dealerWins(){
+    playAudio('loosersound');
     if (playerSum>21){
         alertBanner.innerHTML="Busted, Dealer Wins."
     } else{
@@ -338,6 +343,7 @@ function dealerWins(){
 }
 
 function playerWins(){
+    playAudio('winnersound');
     if (playerSum==21){
         totalMoney=totalMoney+2.5*betSum;
         alertBanner.innerHTML=`You Win $${betSum*1.5}`;
@@ -349,6 +355,7 @@ function playerWins(){
 }
 
 function aDraw(){
+    playAudio('loosersound');
     alertBanner.innerHTML="It is a Draw."
     totalMoney=totalMoney+betSum;
     roundComplete();
@@ -366,13 +373,16 @@ function doubleDown(){
 }
 
 function addBet(y){
+    if (y.length>1){
+        y.shift();
+    }
     if (totalMoney>sumOfArray(y)){
         // playAudio('chipsound');
         betValue=betValue.concat(y);
         let i=betValue.length;
-        betChips1.src="./img/chip"+betValue[i-3]+".png"
-        betChips2.src="./img/chip"+betValue[i-2]+".png"
-        betChips3.src="./img/chip"+betValue[i-1]+".png";
+        betChips1.src="img/chip"+betValue[i-3]+".png"
+        betChips2.src="img/chip"+betValue[i-2]+".png"
+        betChips3.src="img/chip"+betValue[i-1]+".png";
         /////array not joining
         totalMoney=totalMoney+betSum;
         betSum=sumOfArray(betValue);
@@ -392,26 +402,22 @@ function chipDisplay(){
         betChips2.classList.add('hidden');
         betChips1.src="img/chip_blank.png";
         alertBanner.innerHTML="Min $1 to Play";
-        console.log("l is 1");
     } else if (betValue.length==2){
             betChips3.classList.add('hidden');
             betChips2.classList.add('hidden');
         betChips1.src="img/chip"+betValue[1]+".png";
         betChips1.classList.remove('hidden');
         alertBanner.innerHTML="Place your Bet and Click Deal";
-        console.log("l is 2");
     } else if (betValue.length==3){
             betChips3.classList.add('hidden');
         betChips2.src="img/chip"+betValue[2]+".png";
         betChips2.classList.remove('hidden');
         betChips1.src="img/chip"+betValue[1]+".png";
         betChips1.classList.remove('hidden');
-        console.log("l is 3");
     } else{
         betChips3.classList.remove('hidden');
         betChips2.classList.remove('hidden');
         betChips1.classList.remove('hidden');
-        console.log("l is >3");
     }
 }
 
@@ -451,29 +457,38 @@ function getRandomNum (min,max){
 function convertNumToCard(cardVal){
     let newCard ='';
     let i= getRandomNum(1,4);
-    if (cardVal=='1'){ newCard= 'dA'}
-    else if (cardVal=='2'){ newCard= 'd02'}
-    else if (cardVal=='3'){ newCard= 'd03'}
-    else if (cardVal=='4'){ newCard= 'd04'}
-    else if (cardVal=='5'){ newCard= 'd05'}
-    else if (cardVal=='6'){ newCard= 'd06'}
-    else if (cardVal=='7'){ newCard= 'd07'}
-    else if (cardVal=='8'){ newCard= 'd08'}
-    else if (cardVal=='9'){ newCard= 'd09'}
+    let letter="d";
+    if (i==1){letter="d";}
+    else if (i==2){letter="h";}
+    else if (i==3){letter="s";}
+    else if (i==4){letter="c";}
+    if (cardVal=='2'){ newCard= letter+'02';}
+    else if (cardVal=='3'){ newCard= letter+'03';}
+    else if (cardVal=='4'){ newCard= letter+'04';}
+    else if (cardVal=='5'){ newCard= letter+'05';}
+    else if (cardVal=='6'){ newCard= letter+'06';}
+    else if (cardVal=='7'){ newCard= letter+'07';}
+    else if (cardVal=='8'){ newCard= letter+'08';}
+    else if (cardVal=='9'){ newCard= letter+'09';}
     else if (cardVal=='10'){ 
         let j= getRandomNum(1,4)+9;
-        if (j==10){newCard= 'd10'}
-        else if (j==11){newCard= 'dJ'}
-        else if (j==12){newCard= 'dQ'}
-        else if (j==13){newCard= 'dK'}
+        if (j==10){newCard= letter+'10';}
+        else if (j==11){newCard= letter+'J';}
+        else if (j==12){newCard= letter+'Q';}
+        else if (j==13){newCard= letter+'K';}
     }
-    else if (cardVal=='11'){ newCard= 'dA'}
-    else if (cardVal=='12'){ newCard= 'dQ'}
-    else if (cardVal=='13'){ newCard= 'dK'}
-    else if (cardVal=='0'){ newCard= 'back'}
-    else{ alert(`Card Value is out of range`)}
+    else if (cardVal=='11'){ newCard= letter+'A';}
+    // else if (cardVal=='12'){ newCard= 'dQ';}
+    // else if (cardVal=='13'){ newCard= 'dK';}
+    // else if (cardVal=='1'){ newCard= letter+'A';}
+    else if (cardVal=='0'){ newCard= 'back';}
+    else{ alert(`Card Value is out of range`);}
     conversionComplete=true;
     return newCard;
+}
+
+function chooseSuit(){
+    
 }
 
 function sumOfCards(arrayX){
@@ -492,7 +507,6 @@ function sumOfCards(arrayX){
 }
 
 function sumOfArray(arrayX){
-    console.log('Bet Value array is ' +arrayX)
     return arrayX.reduce((a,b) => a+b,0);
 }
 

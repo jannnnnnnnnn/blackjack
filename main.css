@@ -1,3 +1,4 @@
+
 html{
     font-weight: bold;
     color: red;
@@ -18,6 +19,7 @@ nav{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     font-family: 'Aladin', cursive;
 }
 .onLoadImg{
@@ -36,11 +38,27 @@ nav{
 .init2{
     font-size: 4vh;
     color:goldenrod;
-    align-self: center;
+    /* align-self: center; */
     text-shadow: 2px 2px brown;
     min-width: 35vh;
     text-align: center;
 }
+/* a{
+    align-self: flex-start;
+} */
+/* mark, mark a{
+    align-self: stretch;
+    display:flex;
+    flex-direction: row;
+    background-color: black;
+    justify-content: space-between;
+} */
+/* nav button{
+    background-color: black;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+} */
 
 /* Playing Page */
 .buyins{
@@ -177,3 +195,8 @@ footer img{
     opacity: .5;
 }
 
+/* @media screen and (orientation: portrait){
+    body{
+        flex-direction: column;
+    }
+} */
