@@ -44,17 +44,9 @@ nav{
 
 /* Playing Page */
 .buyins{
-    left: 60vw;
+    left: 65vw;
     top: 35vh;
 }
-/* #chipPile2{
-    padding:-50px;
-
-}
-#chipPile3{
-    padding:-50px;
-
-} */
 
 main{
     /* height:80%; */
@@ -66,8 +58,8 @@ main{
 }
 
 main img{
-    width: 15vh;
-    height:15vh;
+    width: 12vh;
+    height:12vh;
     margin: 0 -7vh;
 }
 

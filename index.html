@@ -26,12 +26,19 @@
     <main class="hidden shadow-lg">
         
         <section>
+
+            <!-- <audio  id="bg-player"  src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3"></audio> -->
+            <!-- <audio  id="bg-player" controls autoplay src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3" loop></audio> -->
+            <!-- <button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-volumn-up" aria-hidden="true"></span></button> -->
             <button type="button" class="btn btn-danger" id="restart">Start A New Game</button>
-    
+            <button type="button" class="btn btn-warning" id="audioControl">&#9655</button>
+
         </section>
         <div class="display-3" id="alert"></div>
         <section>
-            <p class="displayOnTable">Computer, Card Total: <span id="cCardTotal"></span></p>
+            <p class="displayOnTable">Computer, Card Total: <span id="cCardTotal"></span>
+            </p>
+
             <div class="card large" id="cCard1"></div>
             <div class="card large" id="cCard2"></div>
             <div class="card large" id="cCard3"></div>
@@ -48,10 +55,10 @@
                 <span class="listNames" id="playerName">Player1</span>  
             </p>
         </section>
-        <div class="buyins" style="position:absolute;">
+        <div class="buyins chipPile" style="position:absolute;">
             <img src="/img/chip1.png" alt="Chip Pile 1">
-            <img src="/img/chip5.png" alt="Chip Pile 2">
-            <img src="/img/chip10.png" alt="Chip Pile 3">
+            <img src="" alt="Chip Pile 2" class="">
+            <img src="" alt="Chip Pile 3">
         </div>
         <section>
             <div class="card large" id="pCard1"></div>
@@ -82,7 +89,7 @@
             <p>Total:  $<span id="totalPot">0</span></p>
             <p>Bet:  $<span id="betAmount">0</span></p>            
         </div>
-        <div class="chips">
+        <div class="chips chipPile">
             <img src="/img/chip1.png" alt="$1 Chip">
             <img src="/img/chip5.png" alt="$5 Chip">
             <img src="/img/chip10.png" alt="$10 Chip" width="100" height="100">

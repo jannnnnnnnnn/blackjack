@@ -4,7 +4,12 @@
 // })
 
 /*----- constants -----*/
+const audioPlayer= new Audio ('http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3');
+const track={
+    cardsound:'/audio/place_card.mp3',
+    chipsound:'http://www.freesound.org/data/previews/383/383870_7146007-lq.mp3',
 
+}
 /*----- app's state (variables) -----*/
 let betValue=[];
 let betSum=0;
@@ -18,6 +23,8 @@ let playerSum=0;
 let computerSum=0;
 let playerName= "";
 let windowWidth=$(document).width();
+let sound=true;
+
 
 /*----- cached element references -----*/
 const dealButton=document.querySelector('button[value="deal"]');
@@ -26,6 +33,7 @@ const stayButton=document.querySelector('button[value="stay"]');
 const doubleButton=document.querySelector('button[value="double"]');
 const splitButton=document.querySelector('button[value="split"]');
 const restartButton=document.querySelector('#restart');
+const soundButton=document.querySelector('#audioControl');
 
 const displayOnTable=document.querySelectorAll('.displayOnTable');
 // const playerDisplayText=document.querySelectorAll('.playerDisplayText');
@@ -45,6 +53,9 @@ const bet25Dollar= document.querySelector('img[alt="$25 Chip"]');
 const betChips1= document.querySelector('img[alt="Chip Pile 1"]');
 const betChips2= document.querySelector('img[alt="Chip Pile 2"]');
 const betChips3= document.querySelector('img[alt="Chip Pile 3"]');
+const chipPile= document.querySelectorAll('.chipPile');
+
+
 
 
 
@@ -57,10 +68,16 @@ dealButton.addEventListener('click',dealMe);
 stayButton.addEventListener('click',stay);
 hitButton.addEventListener('click',hitMe);
 doubleButton.addEventListener('click',doubleDown);
+soundButton.addEventListener('click',setAudio);
+
 bet1Dollar.addEventListener('click',function(){addBet([1]);});
 bet5Dollar.addEventListener('click',function(){addBet([5]);});
 bet10Dollar.addEventListener('click',function(){addBet([10]);});
 bet25Dollar.addEventListener('click',function(){addBet([25]);});
+betChips3.addEventListener('click',removeBet);
+betChips2.addEventListener('click',removeBet);
+betChips1.addEventListener('click',removeBet);
+
 
 $(document).ready(function(){
     animateTarget('.init2',5000);
@@ -84,6 +101,22 @@ $(document).ready(function(){
 //     }
 //     );
 // };
+function setAudio(){
+    if (sound==true){
+        sound = false;
+        console.log("i am in sound is true");
+    } else{
+        sound = true;
+        console.log("i am in sound is false");
+    }
+}
+
+function playAudio(name){
+    if (sound==true){
+        audioPlayer.src=track[name];
+        audioPlayer.play();
+    }
+}
 
 function animateTarget(target, speed){
     //move back to start if out of bounds
@@ -117,6 +150,7 @@ function getRandomNum (min,max){
 }
 
 function dealNewCard(whosTurn){
+    playAudio('cardsound');
     conversionComplete=false;
     let cardVal= getRandomNum (2,11);
     let newCard=convertNumToCard(cardVal);
@@ -159,10 +193,10 @@ function dealNewCard(whosTurn){
 function gameInit(){
     // document.querySelector('body').removeEventListener('click', gameInit, false);
     playerName=prompt("Enter Player Name");
-    if (playerName!=null){
-        playerName=playerName+"   ";
+    if (playerName!==null && playerName!==""){
+        playerName=playerName;
     } else{
-        playerName="Player 1   ";
+        playerName="Player 1";
     }
     document.querySelector('#playerName').innerHTML=playerName;
     totalMoney=200;
@@ -181,9 +215,14 @@ function newRound(){
     inputsSection.classList.remove('freeze');
     restartButton.classList.remove('freeze');
     mainSection.classList.remove('overlay');
+    chipPile.forEach(function(evt){evt.classList.remove('freeze')});
+
     mainSection.removeEventListener('click', newRound, false);
     pCardText.innerHTML="";
     cCardText.innerHTML="";
+    betChips3.classList.add('hidden');
+    betChips2.classList.add('hidden');
+    betChips1.src="/img/chip1.png";
 
     //reset round
     betValue=[0, 1];
@@ -216,32 +255,37 @@ function newRound(){
 }
 
 function dealMe(){
-    for (let i=0; i<4; i++){
-        if (i==0){
-            dealNewCard('p');
-        } else if (i==1){
-            setTimeout(function(){dealNewCard('c');displayOnTable.forEach(function(evt){evt.classList.remove('hidden')});}, 1000);
-            // setTimeout(function(){displayOnTable.forEach(function(evt){evt.classList.remove('hidden')});}, 1000);
-            
-        } else if (i==2){
-            setTimeout(function(){dealNewCard('p')}, 2000);
-        } else if (i==3){
-            setTimeout(function(){dealNewCard('c');}, 3000);
-            setTimeout(function(){
-                if (playerSum == 21){
-                    alertBanner.innerHTML="BlackJack!!!"
-                    computerTurn();
-                } else{
-                    alertBanner.innerHTML="Stay or Hit?";
-                }
-            },3500);
-        } 
+    if (betSum>0){
+        chipPile.forEach(function(evt){evt.classList.add('freeze')});
+        for (let i=0; i<4; i++){
+            if (i==0){
+                dealNewCard('p');
+            } else if (i==1){
+                setTimeout(function(){dealNewCard('c');displayOnTable.forEach(function(evt){evt.classList.remove('hidden')});}, 1000);
+                // setTimeout(function(){displayOnTable.forEach(function(evt){evt.classList.remove('hidden')});}, 1000);
+                
+            } else if (i==2){
+                setTimeout(function(){dealNewCard('p')}, 2000);
+            } else if (i==3){
+                setTimeout(function(){dealNewCard('c');}, 3000);
+                setTimeout(function(){
+                    if (playerSum == 21){
+                        alertBanner.innerHTML="BlackJack!!!"
+                        computerTurn();
+                    } else{
+                        alertBanner.innerHTML="Stay or Hit?";
+                    }
+                },3500);
+            } 
+        }
+        dealButton.disabled=true;
+        hitButton.disabled=false;
+        stayButton.disabled=false;
+        doubleButton.disabled=false;
+        numOfRounds=1;
+    } else{
+        alertBanner.innerHTML="Min $1 to Play";
     }
-    dealButton.disabled=true;
-    hitButton.disabled=false;
-    stayButton.disabled=false;
-    doubleButton.disabled=false;
-    numOfRounds=1;
 
 }
 
@@ -328,12 +372,16 @@ function doubleDown(){
     hitMe();
 }
 
-function addBet(x){
-    if (totalMoney>x){
-        betChips1.src=betChips2.src
-        betChips2.src=betChips3.src
-        betChips3.src="/img/chip"+x+".png";
-                betValue=betValue.concat(x);
+function addBet(y){
+
+    if (totalMoney>sumOfArray(y)){
+        // playAudio('chipsound');
+        betValue=betValue.concat(y);
+        let i=betValue.length;
+        betChips1.src="/img/chip"+betValue[i-3]+".png"
+        betChips2.src="/img/chip"+betValue[i-2]+".png"
+        betChips3.src="/img/chip"+betValue[i-1]+".png";
+        /////array not joining
         totalMoney=totalMoney+betSum;
         betSum=sumOfArray(betValue);
         totalMoney=totalMoney-betSum;
@@ -343,6 +391,53 @@ function addBet(x){
     } else{
         alertBanner.innerHTML="Boo! We don't lend money..."
     }
+    chipDisplay();
+    
+}
+
+function chipDisplay(){
+    if (betValue.length==1){
+        betChips3.classList.add('hidden');
+        betChips2.classList.add('hidden');
+        betChips1.src="/img/chip_blank.png";
+        alertBanner.innerHTML="Min $1 to Play";
+        console.log("l is 1");
+    } else if (betValue.length==2){
+            betChips3.classList.add('hidden');
+            betChips2.classList.add('hidden');
+        betChips1.src="/img/chip"+betValue[1]+".png";
+        betChips1.classList.remove('hidden');
+        alertBanner.innerHTML="Place your Bet and Click Deal";
+        console.log("l is 2");
+    } else if (betValue.length==3){
+            betChips3.classList.add('hidden');
+        betChips2.src="/img/chip"+betValue[2]+".png";
+        betChips2.classList.remove('hidden');
+        betChips1.src="/img/chip"+betValue[1]+".png";
+        betChips1.classList.remove('hidden');
+        console.log("l is 3");
+    } else{
+        betChips3.classList.remove('hidden');
+        betChips2.classList.remove('hidden');
+        betChips1.classList.remove('hidden');
+        console.log("l is >3");
+    }
+}
+
+function removeBet(){
+    if (betValue.length>1){
+        playAudio('chipsound');
+        betChips3.src=betChips2.src;
+        betChips2.src=betChips1.src
+        betChips1.src="/img/chip"+betValue[betValue.length-4]+".png";
+        totalMoney=totalMoney-betValue[betValue.length-1];
+        betValue.pop();
+        betSum=sumOfArray(betValue);
+        $('#totalPot').text(totalMoney);
+        $('#betAmount').text(betSum); 
+    }
+    chipDisplay();
+    
 }
 
 function splitMe(){
@@ -411,4 +506,6 @@ function roundComplete(){
 //roundComplete()
 
 //$('input[type="button"][value="restart"]').click(gameInit);
+/////audio
 
+/////img overlay with opacity for fireworks
