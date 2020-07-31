@@ -426,9 +426,10 @@ function doubleDown(){
 }
 
 function addBet(y){
-    if (y.length>1){
-        y.shift();
-    }
+    // if (y.length>1){
+    //     y.shift();
+    // }
+    playAudio('chipsound');
     if (totalMoney>sumOfArray(y)){
         // playAudio('chipsound');
         betValue=betValue.concat(y);
@@ -480,7 +481,7 @@ function removeBet(){
         betChips3.src=betChips2.src;
         betChips2.src=betChips1.src
         betChips1.src="img/chip"+betValue[betValue.length-4]+".png";
-        totalMoney=totalMoney-betValue[betValue.length-1];
+        totalMoney=totalMoney+betValue[betValue.length-1];
         betValue.pop();
         betSum=sumOfArray(betValue);
         $('#totalPot').text(totalMoney);
