@@ -23,7 +23,7 @@
         <!-- <audio  id="bg-player" controls autoplay src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3" loop></audio> -->
 
         <div class="initText">BlackJack</div>
-        <a href="" title="Play Sound" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioInitial">&#9655  Sound</button></a>
+        <button type="button" class="btn btn-warning" title="Play Sound" id="audioInitial">&#119136  Sound</button></a>
 
         <!-- <a href="" title="Pulse Sound" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioControl">| |</button></a> -->
 
@@ -40,7 +40,7 @@
             <!-- <audio  id="bg-player" controls autoplay src="http://www.freesound.org/data/previews/245/245588_1897685-lq.mp3" loop></audio> -->
             <!-- <button type="button" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-volumn-up" aria-hidden="true"></span></button> -->
             <button type="button" class="btn btn-danger" id="restart">Start A New Game</button>
-            <a href="" title="Sound Control" style="background-color:#FFFFFF;color:#000000;text-decoration:none"><button type="button" class="btn btn-warning" id="audioControl">&#9655</button></a>
+            <button type="button" class="btn btn-warning" id="audioControl" title="Sound Control">&#119136</button></a>
 
         </section>
         <div class="display-3" id="alert"></div>
@@ -84,6 +84,20 @@
         <section class="displayOnTable">
             <p>Card Total: <span id="pCardTotal"></span></p>
         </section>
+        <section class="hidden">
+            <p>Split Card Total: <span id="pCardTotal2"></span></p>
+            <div class="card large" id="pCardSplit1"></div>
+            <div class="card large" id="pCardSplit2"></div>
+            <div class="card large" id="pCardSplit3"></div>
+            <div class="card large" id="pCardSplit4"></div>
+            <div class="card large" id="pCardSplit5"></div>
+            <div class="card large" id="pCardSplit6"></div>
+            <div class="card large" id="pCardSplit7"></div>
+            <div class="card large" id="pCardSplit8"></div>
+            <div class="card large" id="pCardSplit9"></div>
+            <div class="card large" id="pCardSplit10"></div>
+
+        </section>
         
     </main>
     <footer class="inputs hidden">
@@ -92,7 +106,7 @@
             <button type="button" class="btn btn-outline-success" value="hit">Hit</button>
             <button type="button" class="btn btn-outline-success" value="stay">Stay</button>
             <button type="button" class="btn btn-outline-success" value="double">Double Down</button>
-            <button type="button" class="btn btn-outline-success" value="split">Split</button>
+            <button type="button" class="btn btn-outline-success hidden" value="split">Split</button>
         </div>
         <div id="scores">
             <p>Total:  $<span id="totalPot">0</span></p>

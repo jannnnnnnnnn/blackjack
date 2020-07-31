@@ -88,6 +88,11 @@ section:first-child{
 section:nth-child(3){
     align-self: flex-start;
 }
+
+section:nth-child(8){
+    align-self: flex-end;
+}
+
 p{
     color:white
 }
@@ -161,19 +166,6 @@ footer img{
 }
 
 
-
-
-
-
-.bg1{
-    background-image: url(img/roulette_background.jpg);
-    width:100%;
-    height:auto;
-    background-position:center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .bg2{
     background-image: url(img/blackjack-classic-background.jpg);
     height:100%;
@@ -195,6 +187,30 @@ footer img{
     opacity: .5;
 }
 
+.imgOverlay {
+    /* position: fixed;  */
+    /* Sit on top of the page content */
+    /* display: none;  */
+    /* Hidden by default */
+    /* width: 100%;  */
+    /* Full width (cover the whole page) */
+    /* height: 100%;  */
+    /* Full height (cover the whole page) */
+    /* top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; */
+    /* background-color: rgba(0,0,0,0.5);  */
+    /* Black background with opacity */
+    /* z-index: 3;  */
+    /* Specify a stack order in case you're using a different order for other elements */
+    /* cursor: pointer;  */
+    /* Add a pointer on hover */
+    background-image: url(img/blackjack_icon.png);
+    opacity: .5;
+  }
+
+w
 /* @media screen and (orientation: portrait){
     body{
         flex-direction: column;

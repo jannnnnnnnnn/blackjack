@@ -8,10 +8,9 @@ const audioPlayer= new Audio ('audio/place_card.mp3');
 const audioInitLoad= new Audio ('audio/around_the_world.mp3');
 const track={
     cardsound:'audio/place_card.mp3',
-    // cardsound:'http://www.freesound.org/data/previews/336/336899_4939433-lq.mp3',
     chipsound:'audio/poker_chip_dropping.mp3',
     winnersound:'audio/winner_clap.mp3',
-    loosersound:'audio/looser_boo (2).mp3',
+    loosersound:'audio/looser_boo.mp3',
 }
 
 /*----- app's state (variables) -----*/
@@ -19,16 +18,20 @@ let betValue=[];
 let betSum=0;
 let totalMoney=0;
 let playerCards=[];
+let playerCards2=[];
 let computerCards=[];
 let numOfRounds=0;
 let cardToDisplay='';
 let conversionComplete=false;
 let playerSum=0;
+let playerSum2=0;
 let computerSum=0;
 let playerName= "";
 let windowWidth=$(document).width();
 let sound=true;
 let soundinit=true;
+let split=false;
+let double=false;
 
 
 /*----- cached element references -----*/
@@ -39,7 +42,7 @@ const doubleButton=document.querySelector('button[value="double"]');
 const splitButton=document.querySelector('button[value="split"]');
 const restartButton=document.querySelector('#restart');
 const soundButton=document.querySelector('#audioControl');
-
+const initSoundButton = document.querySelector('#audioInitial');
 const displayOnTable=document.querySelectorAll('.displayOnTable');
 // const playerDisplayText=document.querySelectorAll('.playerDisplayText');
 // const computerDisplayText=document.querySelectorAll('.computerDisplayText');
@@ -49,6 +52,7 @@ const mainSection= document.querySelector('main');
 const footerSection= document.querySelector('footer');
 const inputsSection =document.querySelector('.inputs');
 const pCardText= document.querySelector('#pCardTotal');
+const pCardText2= document.querySelector('#pCardTotal2');
 const cCardText= document.querySelector('#cCardTotal');
 const totalPotText= document.querySelector('#totalPot');
 const bet1Dollar= document.querySelector('img[alt="$1 Chip"]');
@@ -84,11 +88,15 @@ betChips1.addEventListener('click',removeBet);
 $(document).ready(function(){
     animateTarget('.init2',5000);
 });
-document.querySelector('#audioInitial').addEventListener('click', function(){
+
+initSoundButton.addEventListener('click', function(){
     if (soundinit==true){
         audioInitLoad.play();
+        initSoundButton.innerHTML="| | Sound";
         soundinit=false;
     } else{
+        audioInitLoad.pause();
+        initSoundButton.innerHTML="&#9655 Sound";
         soundinit=true;
     }
 })
@@ -114,8 +122,12 @@ document.querySelector('#audioInitial').addEventListener('click', function(){
 function setAudio(){
     if (sound==true){
         sound = false;
+        soundButton.innerHTML="&#9655";
+        
     } else{
         sound = true;
+        soundButton.innerHTML="| |";
+
     }
 }
 
@@ -176,47 +188,77 @@ function newRound(){
     inputsSection.classList.remove('freeze');
     restartButton.classList.remove('freeze');
     mainSection.classList.remove('overlay');
-    chipPile.forEach(function(evt){evt.classList.remove('freeze')});
+    stayButton.disabled=true;
+    hitButton.disabled=true;
+    dealButton.disabled=false;
 
     mainSection.removeEventListener('click', newRound, false);
     pCardText.innerHTML="";
     cCardText.innerHTML="";
-    betChips3.classList.add('hidden');
-    betChips2.classList.add('hidden');
-    betChips1.src="img/chip1.png";
+    double=false;
+    if (split==true){
+        checkSplit();
+        splitButton.disabled=false;
+        doubleButton.disabled=false;
 
-    //reset round
-    betValue=[0, 1];
-    betSum=sumOfArray(betValue);
-    totalMoney=totalMoney-betSum;
-    computerCards=[];
-    playerCards=[];
+    } else{
+        //Do not perform if split
+        chipPile.forEach(function(evt){evt.classList.remove('freeze')});
 
-    //display $
-    $('#betAmount').text(betSum);
-    totalPotText.innerHTML=totalMoney;
 
-    //Remove all cards
-    for (let i=1; i<11; i++){
-        j="#pCard" + i;
-        k="#cCard"+i;
-        $(j).fadeOut();
-        $(j).removeClass();
-        $(j).addClass('card large');
-        $(k).fadeOut();
-        $(k).removeClass();
-        $(k).addClass('card large');
+        //Do not perform if split
+        betChips3.classList.add('hidden');
+        betChips2.classList.add('hidden');
+        betChips1.src="img/chip1.png";
+
+        //reset round,     //Do not perform if split
+        betValue=[0, 1];
+        betSum=sumOfArray(betValue);
+        totalMoney=totalMoney-betSum;
+        computerCards=[];
+        playerCards=[];
+
+        //display $ //Do not perform if split
+        $('#betAmount').text(betSum);
+        totalPotText.innerHTML=totalMoney;
+
+        //Remove all cards, //do not perform if split
+        for (let i=1; i<11; i++){
+            let j="#pCard" + i;
+            let k="#cCard"+i;
+            // let l="#pCardSplit"+i;
+            $(j).fadeOut();
+            $(j).removeClass();
+            $(j).addClass('card large');
+            $(k).fadeOut();
+            $(k).removeClass();
+            $(k).addClass('card large');
+            // $(l).fadeOut();
+            // $(l).removeClass();
+            // $(l).addClass('card large');
+        }
+
+        alertBanner.innerHTML="Place your Bet and Click Deal";
+
+        doubleButton.disabled=true;
+        splitButton.disabled=true;
     }
-    alertBanner.innerHTML="Place your Bet and Click Deal";
-    stayButton.disabled=true;
-    hitButton.disabled=true;
-    doubleButton.disabled=true;
-    dealButton.disabled=false;
+    
+
+    
+
 }
 
 function dealMe(){
     if (betSum>0){
+        dealButton.disabled=true;
+        hitButton.disabled=false;
+        stayButton.disabled=false;
+        doubleButton.disabled=false;
+        splitButton.disabled=false;
+
         chipPile.forEach(function(evt){evt.classList.add('freeze')});
+        
         for (let i=0; i<4; i++){
             if (i==0){
                 dealNewCard('p');
@@ -229,8 +271,7 @@ function dealMe(){
             } else if (i==3){
                 setTimeout(function(){dealNewCard('c');}, 3000);
                 setTimeout(function(){
-                    if (playerSum == 21){
-                        alertBanner.innerHTML="BlackJack!!!"
+                    if (playerSum==21){
                         computerTurn();
                     } else{
                         alertBanner.innerHTML="Stay or Hit?";
@@ -238,10 +279,7 @@ function dealMe(){
                 },3500);
             } 
         }
-        dealButton.disabled=true;
-        hitButton.disabled=false;
-        stayButton.disabled=false;
-        doubleButton.disabled=false;
+
         numOfRounds=1;
     } else{
         alertBanner.innerHTML="Min $1 to Play";
@@ -260,6 +298,12 @@ function dealNewCard(whosTurn){
         cardToDisplay= '#pCard' +playerCards.length;
         playerSum = sumOfCards(playerCards);
         pCardText.innerHTML=playerSum;
+    } else if (whosTurn=='s'){
+        //this is split condition    
+        playerCards2.push(cardVal);
+        cardToDisplay= '#pCardSplit' +playerCards2.length;
+        playerSum2 = sumOfCards(playerCards2);
+        pCardText2.innerHTML=playerSum;
     } else if (whosTurn=='c'){
         if (computerCards.length==0){
             cardVal=0;
@@ -286,8 +330,11 @@ function dealNewCard(whosTurn){
     return true;
 }
 
+
+
 function hitMe(){
     numOfRounds++;
+    
     let functionComplete = dealNewCard('p');
     if (functionComplete){
         if (playerSum>21){
@@ -296,27 +343,55 @@ function hitMe(){
             alertBanner.innerHTML="BlackJack!!!"
             computerTurn();
         } else{
-            alertBanner.innerHTML="Stay or Hit?"
+            if (double==true){
+                computerTurn();
+            } else{
+                alertBanner.innerHTML="Stay or Hit?"
+            }
         }
     }   
     doubleButton.disabled=true;
 }
 
+function checkSplit(){
+    alertBanner.innerHTML="Hit or Stay";
+    let onecardClass=document.querySelector('#pCardSplit1').classList;
+    let twocardClass=document.querySelector('#pCardSplit2').classList;
+    console.log("twocardClass is",twocardClass);
+    console.log(document.querySelector('#pCard2').classList);
+    document.querySelector('#pCardSplit1').classList=document.querySelector('#pCard1').classList;
+    document.querySelector('#pCardSplit2').classList=document.querySelector('#pCard2').classList;
+    document.querySelector('#pCardSplit3').classList=document.querySelector('#pCard3').classList;
+    document.querySelector('#pCardSplit4').classList=document.querySelector('#pCard4').classList;
+
+    for (let i=1; i<(playerCards.length+1); i++){
+        let j="#pCard" + i;
+        let l="#pCardSplit"+i;
+        $(l).fadeIn();
+        $(j).fadeOut();
+    }
+    playerCards=playerCards2;
+    $('#pCard1').fadeIn();
+    $('#pCard2').fadeIn();
+    document.querySelector('#pCard1').classList=onecardClass;
+    document.querySelector('#pCard2').classList=twocardClass;
+    split=false;
+}
+
 function computerTurn(){
+    // checkSplit
     let keepGoing=true;
     let functionComplete=dealNewCard('c');
     //let i=0;
     if (functionComplete){
         while (keepGoing==true){
-            if (computerSum<16 && computerSum<playerSum){
+            if (computerSum<17 && computerSum<playerSum){
                 //keepGoing = setTimeout(function(){ dealNewCard('c')},1000);
                 keepGoing=dealNewCard('c');
-            } else if (computerSum>=16 && computerSum<21 && computerSum<playerSum){
-                keepGoing=dealNewCard('c');
-            } else if (computerSum==playerSum){
+            } else if (computerSum==playerSum && numOfRounds>1){
                 keepGoing=false;
                 aDraw();
-            } else if (computerSum>21){
+            } else if ((computerSum>21) || (computerSum>=17 && computerSum<playerSum) || (computerSum==playerSum && numOfRounds==1 && computerCards.length==2)){
                 keepGoing=false;
                 playerWins();
             } else {
@@ -333,6 +408,7 @@ function computerTurn(){
 
 //winner conditions
 function dealerWins(){
+    // mainSection.classList.add('imgOverlay');
     playAudio('loosersound');
     if (playerSum>21){
         alertBanner.innerHTML="Busted, Dealer Wins."
@@ -343,10 +419,11 @@ function dealerWins(){
 }
 
 function playerWins(){
+    // mainSection.classList.add('imgOverlay');
     playAudio('winnersound');
     if (playerSum==21){
-        totalMoney=totalMoney+2.5*betSum;
-        alertBanner.innerHTML=`You Win $${betSum*1.5}`;
+        totalMoney=totalMoney+4*betSum;
+        alertBanner.innerHTML=`You Win $${betSum*3}`;
     } else{
         totalMoney=totalMoney+betSum*2
         alertBanner.innerHTML=`You Win $${betSum}`;
@@ -355,6 +432,7 @@ function playerWins(){
 }
 
 function aDraw(){
+    // mainSection.classList.add('imgOverlay');
     playAudio('loosersound');
     alertBanner.innerHTML="It is a Draw."
     totalMoney=totalMoney+betSum;
@@ -368,7 +446,7 @@ function stay(){
 
 function doubleDown(){
     addBet(betValue);
-    
+    double=true;
     hitMe();
 }
 
@@ -438,13 +516,25 @@ function removeBet(){
 }
 
 function splitMe(){
+    split=true;
+    document.querySelector('#pCardSplit1').classList=document.querySelector('#pCard2').classList
+    playerCards2[0]=playerCards[1];
+    playerCards.pop();
+    $('#pCard2').removeClass();
+    $('#pCard2').fadeOut();
+    $('#pCard2').addClass('card large');
+    dealNewCard('p');
+    stayButton.disabled=false;
+    splitButton.disabled=true;
+    $('#pCardSplit1').fadeIn();
+
+    // document.querySelector('#pCard2').classList=document.querySelector('#pCard1').classList
+    setTimeout(function(){dealNewCard('s')}, 1000);
+
     console.log("playerCard is " + playerCards);
     console.log("playerSum is " + playerSum);
     console.log("computerCard is " + computerCards);
     console.log("computerSum is " + computerSum);
-    //roundComplete();
-    //document.querySelector('body').addEventListener('dblclick', gameInit);
-
 }
 
 //choose a random number
@@ -456,6 +546,7 @@ function getRandomNum (min,max){
 
 function convertNumToCard(cardVal){
     let newCard ='';
+    // let convertAgain=false;
     let i= getRandomNum(1,4);
     let letter="d";
     if (i==1){letter="d";}
@@ -483,12 +574,25 @@ function convertNumToCard(cardVal){
     // else if (cardVal=='1'){ newCard= letter+'A';}
     else if (cardVal=='0'){ newCard= 'back';}
     else{ alert(`Card Value is out of range`);}
+
+    //if class list already exist, then try a different random number
+    // if (playerCards.length>0){
+    //     for (let i=1; i<playerCards.length || i<computerCards.length; i++){
+    //         console.log("i am here");
+    //         console.log("$(j).hasClass(newCard)",$(j).hasClass(newCard));
+    //         console.log("$(k).hasClass(newCard)", $(k).hasClass(newCard));
+    //         let j="#pCard" + i;
+    //         let k="#cCard"+i;
+    //         if ($(j).hasClass(newCard) || $(k).hasClass(newCard)){
+    //             convertAgain=true;
+    //             convertNumToCard(cardVal);
+    //         }
+    //     }
+        
+    // }
+
     conversionComplete=true;
     return newCard;
-}
-
-function chooseSuit(){
-    
 }
 
 function sumOfCards(arrayX){
