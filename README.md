@@ -1,5 +1,6 @@
 # BlackJack Casino Game
 ___
+[_Link to BlackJack Casino Game_](https://jannnnnnnnnn.github.io/blackjack/)
 ## Description
 The player first enters the game's initial page, which contains fun background music with a casino image. Clicking the "sound button" initiates the music. Click anywhere on the casino image would take you to the BlackJack game.
 
@@ -39,7 +40,7 @@ You are betting that you have a better hand than the dealer. The better hand is 
 * If the player attains a final sum higher than the dealer and does not bust; the player wins.
 * If both dealer and player receive a blackjack or any other hands with the same sum called a "push", no one wins.
 
-For detail rules, please checkout [BlackJack](https://en.wikipedia.org/wiki/Blackjack) on wikipedia. 
+For detailed rules, please checkout [BlackJack](https://en.wikipedia.org/wiki/Blackjack) on wikipedia. 
 
 ## Future Enhancements
 * The game logic was built based on randomly selecting numbers. Depending on the casino rules, the game should be changed to selecting cards from one or two full decks of cards and re-shuffle after several rounds.
