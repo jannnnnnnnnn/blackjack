@@ -100,6 +100,7 @@ p{
     font-variant-caps: small-caps;
     text-shadow: 2px 2px brown;
     font-family: 'Aladin', cursive;
+    font-size: 10vh;
 }
 
 footer{
@@ -198,5 +199,18 @@ footer img{
       position: absolute;
       top: 100%;
       left: 0;
+    }
+    body{
+        height:100vw;    
+    }
+    .buyins{
+        left: 65vh;
+        top: 35vw;
+    }
+    .onLoadImg{
+        height:90vw;
+    }
+    #alert{
+        font-size: 10vw;
     }
 }
