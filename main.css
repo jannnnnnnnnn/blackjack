@@ -43,22 +43,6 @@ nav{
     min-width: 35vh;
     text-align: center;
 }
-/* a{
-    align-self: flex-start;
-} */
-/* mark, mark a{
-    align-self: stretch;
-    display:flex;
-    flex-direction: row;
-    background-color: black;
-    justify-content: space-between;
-} */
-/* nav button{
-    background-color: black;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-} */
 
 /* Playing Page */
 .buyins{
@@ -119,16 +103,11 @@ p{
 }
 
 footer{
-    /* height:20%; */
     width: 15%;
     background-color: #190E11;
     opacity: 0.8;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-around; */
-    /* align-items: center; */
-    /* padding:20px; */
-    /* margin:10px; */
 }
 
 .allmyButtons{
@@ -137,11 +116,8 @@ footer{
     padding:20px;
 }
 footer button{
-    /* min-width: 10vw; */
-    /* display: block;*/
     width: 100%;
     margin: .5vw 0px .5vw 0px;
-    /* padding: 10px; */
 }
 .chips{
     display: flex;
@@ -156,15 +132,12 @@ footer img{
     margin: .5vw;
     width: 5vw;
     height:5vw;
-
 }
-
 
 .nameChips{
     align-self: flex-end;
     justify-self: flex-start;
 }
-
 
 .bg2{
     background-image: url(img/blackjack-classic-background.jpg);
@@ -210,7 +183,6 @@ footer img{
     opacity: .5;
   }
 
-w
 /* @media screen and (orientation: portrait){
     body{
         flex-direction: column;

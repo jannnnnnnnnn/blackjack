@@ -1,8 +1,3 @@
-// document.querySelector('.card').addEventListener('click', (e)=> {
-//     e.target.classList.remove('back');
-//     e.target.classList.add('hK');
-// })
-
 /*----- constants -----*/
 const audioPlayer= new Audio ('audio/place_card.mp3');
 const audioInitLoad= new Audio ('audio/around_the_world.mp3');
@@ -43,18 +38,18 @@ const splitButton=document.querySelector('button[value="split"]');
 const restartButton=document.querySelector('#restart');
 const soundButton=document.querySelector('#audioControl');
 const initSoundButton = document.querySelector('#audioInitial');
-const displayOnTable=document.querySelectorAll('.displayOnTable');
-// const playerDisplayText=document.querySelectorAll('.playerDisplayText');
-// const computerDisplayText=document.querySelectorAll('.computerDisplayText');
 
+const displayOnTable=document.querySelectorAll('.displayOnTable');
 const alertBanner=document.querySelector('#alert');
 const mainSection= document.querySelector('main');
 const footerSection= document.querySelector('footer');
 const inputsSection =document.querySelector('.inputs');
+
 const pCardText= document.querySelector('#pCardTotal');
 const pCardText2= document.querySelector('#pCardTotal2');
 const cCardText= document.querySelector('#cCardTotal');
 const totalPotText= document.querySelector('#totalPot');
+
 const bet1Dollar= document.querySelector('img[alt="$1 Chip"]');
 const bet5Dollar= document.querySelector('img[alt="$5 Chip"]');
 const bet10Dollar= document.querySelector('img[alt="$10 Chip"]');
@@ -101,24 +96,7 @@ initSoundButton.addEventListener('click', function(){
     }
 })
 
-// function animateTarget(target, speed, prevTop, prevLeft){
-//     $(target).css({top:prevTop, left:prevLeft});
-//     let t= getRandomNum(-100,100);
-//     let s= getRandomNum(-100,100);
-//     // let newTop= prevTop+$(document).height() + t;
-//     // let newLeft= prevLeft+$(document).width() + s
-//     console.log(t,"and",s, "and",$(document).height());
-//     $(target).animate(
-//     {
-//         top: t,
-//         left: s
-//     },
-//     {
-//         duration: speed,
-//         complete: function(){animateTarget(this,speed,t,s);}
-//     }
-//     );
-// };
+/*----- functions -----*/
 function setAudio(){
     if (sound==true){
         sound = false;
@@ -156,7 +134,6 @@ function animateTarget(target, speed){
     );
 };
 
-/*----- functions -----*/
 function initLoad(){
     audioInitLoad.pause();
     document.querySelector('nav').removeEventListener('click',initLoad,false);
@@ -402,8 +379,6 @@ function computerTurn(){
             
         }
     }
-
-
 }
 
 //winner conditions
@@ -569,9 +544,6 @@ function convertNumToCard(cardVal){
         else if (j==13){newCard= letter+'K';}
     }
     else if (cardVal=='11'){ newCard= letter+'A';}
-    // else if (cardVal=='12'){ newCard= 'dQ';}
-    // else if (cardVal=='13'){ newCard= 'dK';}
-    // else if (cardVal=='1'){ newCard= letter+'A';}
     else if (cardVal=='0'){ newCard= 'back';}
     else{ alert(`Card Value is out of range`);}
 
@@ -605,7 +577,6 @@ function sumOfCards(arrayX){
         findEleven=arrayX.findIndex(x=>x==11);
         sum = arrayX.reduce((a,b) => a+b,0);
     }
-
     return sum;
 
 }
@@ -624,11 +595,3 @@ function roundComplete(){
 
 }
 
-//alert ($('button').prop('value'));
-//alert (document.querySelector('button').value);
-//roundComplete()
-
-//$('input[type="button"][value="restart"]').click(gameInit);
-/////audio
-
-/////img overlay with opacity for fireworks
