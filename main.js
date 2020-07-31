@@ -431,6 +431,7 @@ function addBet(y){
     // }
     playAudio('chipsound');
     if (totalMoney>sumOfArray(y)){
+        alertBanner.innerHTML="Place your Bet and Click Deal";
         // playAudio('chipsound');
         betValue=betValue.concat(y);
         let i=betValue.length;
@@ -454,7 +455,7 @@ function chipDisplay(){
     if (betValue.length==1){
         betChips3.classList.add('hidden');
         betChips2.classList.add('hidden');
-        betChips1.src="img/chip_blank.png";
+        betChips1.src="img/chip0.png";
         alertBanner.innerHTML="Min $1 to Play";
     } else if (betValue.length==2){
             betChips3.classList.add('hidden');
@@ -476,6 +477,7 @@ function chipDisplay(){
 }
 
 function removeBet(){
+    alertBanner.innerHTML="Place your Bet and Click Deal";
     if (betValue.length>1){
         playAudio('chipsound');
         betChips3.src=betChips2.src;
