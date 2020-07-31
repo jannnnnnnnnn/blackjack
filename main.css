@@ -194,7 +194,7 @@ footer img{
     html {
       transform: rotate(-90deg);
       transform-origin: left top;
-      width: 85vh;
+      width: 100vh;
       overflow-x: hidden;
       position: absolute;
       top: 100%;
